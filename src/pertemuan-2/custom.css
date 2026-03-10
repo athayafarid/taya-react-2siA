@@ -1,0 +1,74 @@
+/* Background utama - tema Avengers */
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #0b0c10, #1f2833);
+    color: #f5f5f5;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Card utama */
+.card {
+    max-width: 600px;
+    margin: 40px auto;
+    background: #1f1f1f;
+    padding: 25px;
+    border-radius: 10px;
+    border: 2px solid #c3073f;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+    position: relative;
+}
+
+/* Efek garis Avengers */
+.card::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 10px;
+    background: linear-gradient(45deg, #ff0000, #ffd700, #007bff);
+    z-index: -1;
+    filter: blur(8px);
+}
+
+/* Header utama */
+h1 {
+    color: #ffd700; /* emas ala Iron Man */
+    text-align: center;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px #ff0000;
+}
+
+/* Paragraf */
+p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #e6e6e6;
+}
+
+/* Garis pemisah */
+hr {
+    border: none;
+    height: 2px;
+    background: linear-gradient(to right, #ff0000, #ffd700, #007bff);
+    margin: 15px 0;
+}
+
+/* Greeting */
+small {
+    display: block;
+    font-style: italic;
+    text-align: center;
+    color: #bbb;
+    margin-top: 10px;
+}
+
+/* Efek hover seperti hero power */
+.card:hover {
+    transform: scale(1.02);
+    transition: 0.3s;
+    box-shadow: 0 0 25px rgba(255, 0, 0, 0.8);
+}
