@@ -42,7 +42,7 @@ export default function Sidebar() {
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink id="menu-4" to="/notfound" className={menuClass}>
+                       <NavLink to="*" className={menuClass}>
                             <MdPeople className="mr-4 text-xl" />
                             <span>NotFound</span>
                         </NavLink>
