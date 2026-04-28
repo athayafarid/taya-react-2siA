@@ -1,5 +1,3 @@
-import Sidebar from "./layouts/Sidebar";
-import Header from "./layouts/Header";
 import "./assets/tailwind.css";
 import { Routes, Route } from "react-router-dom";
 
@@ -10,37 +8,34 @@ import NotFound from "./pages/NotFound";
 // Import halaman form baru
 import AddOrder from "./pages/AddOrder";
 import AddCustomer from "./pages/AddCustomer";
+import MainLayout from "./layouts/MainLayout";
+import AuthLayout from "./layouts/AuthLayout";
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
+import Forgot from "./pages/auth/Forgot";
 
 function App() {
   return (
-    <div className="flex min-h-screen bg-gray-100">
 
-      {/* SIDEBAR (KIRI) */}
-      <Sidebar />
+    <Routes>
+      <Route element={<MainLayout />}>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/orders" element={<Orders />} />
+        <Route path="/customers" element={<Customers />} />
+        {/* Tambahkan Route Form Disini */}
+        <Route path="/add-order" element={<AddOrder />} />
+        <Route path="/add-customer" element={<AddCustomer />} />
 
-      {/* KANAN */}
-      <div className="flex flex-col flex-1">
+        <Route path="*" element={<NotFound />} />
+      </Route>
+      
+      <Route element={<AuthLayout />}>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/forgot" element={<Forgot />} />
+      </Route>
+    </Routes>
 
-        {/* HEADER (ATAS) */}
-        <Header />
-
-        {/* CONTENT */}
-        <div className="p-6">
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/orders" element={<Orders />} />
-            <Route path="/customers" element={<Customers />} />
-            
-            {/* Tambahkan Route Form Disini */}
-            <Route path="/add-order" element={<AddOrder />} />
-            <Route path="/add-customer" element={<AddCustomer />} />
-            
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </div>
-
-      </div>
-    </div>
   );
 }
 

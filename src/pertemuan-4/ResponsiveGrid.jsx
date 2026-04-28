@@ -97,8 +97,8 @@ export default function FthreeColorfulStore() {
                                     key={cat}
                                     onClick={() => setSelectedTag(cat)}
                                     className={`px-6 py-2 rounded-full text-xs font-extrabold whitespace-nowrap transition-all duration-300 border hover:-translate-y-0.5 ${selectedTag === cat
-                                            ? `bg-blue-600 text-white shadow-lg shadow-blue-200 border-blue-600`
-                                            : `bg-slate-50 text-slate-700 border-slate-200 hover:border-blue-400`
+                                        ? `bg-blue-600 text-white shadow-lg shadow-blue-200 border-blue-600`
+                                        : `bg-slate-50 text-slate-700 border-slate-200 hover:border-blue-400`
                                         }`}
                                 >
                                     {cat}
