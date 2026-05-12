@@ -1,73 +1,85 @@
-import PageHeader from "../components/PageHeader";
+import React from 'react';
+import { Link } from 'react-router-dom';
+// Pastikan path import disesuaikan dengan lokasi file customers.json Anda
+import customerData from '../data/customers.json';
 
-// Generate 30 Data Customer
-const customersData = [
-  { customerId: "CUST-001", customerName: "Andi Saputra", email: "andi@example.com", phone: "081234567801", loyalty: "Gold" },
-  { customerId: "CUST-002", customerName: "Budi Santoso", email: "budi@example.com", phone: "081234567802", loyalty: "Silver" },
-  { customerId: "CUST-003", customerName: "Citra Lestari", email: "citra@example.com", phone: "081234567803", loyalty: "Bronze" },
-  { customerId: "CUST-004", customerName: "Dewi Anggraini", email: "dewi@example.com", phone: "081234567804", loyalty: "Gold" },
-  { customerId: "CUST-005", customerName: "Eko Prasetyo", email: "eko@example.com", phone: "081234567805", loyalty: "Silver" },
-  { customerId: "CUST-006", customerName: "Fina Melati", email: "fina@example.com", phone: "081234567806", loyalty: "Bronze" },
-  { customerId: "CUST-007", customerName: "Gilang Ramadhan", email: "gilang@example.com", phone: "081234567807", loyalty: "Silver" },
-  { customerId: "CUST-008", customerName: "Hani Safitri", email: "hani@example.com", phone: "081234567808", loyalty: "Gold" },
-  { customerId: "CUST-009", customerName: "Indra Wijaya", email: "indra@example.com", phone: "081234567809", loyalty: "Bronze" },
-  { customerId: "CUST-010", customerName: "Joko Anwar", email: "joko@example.com", phone: "081234567810", loyalty: "Silver" },
-  { customerId: "CUST-011", customerName: "Kartika Sari", email: "kartika@example.com", phone: "081234567811", loyalty: "Gold" },
-  { customerId: "CUST-012", customerName: "Lukman Hakim", email: "lukman@example.com", phone: "081234567812", loyalty: "Bronze" },
-  { customerId: "CUST-013", customerName: "Maya Putri", email: "maya@example.com", phone: "081234567813", loyalty: "Silver" },
-  { customerId: "CUST-014", customerName: "Nanda Syahputra", email: "nanda@example.com", phone: "081234567814", loyalty: "Gold" },
-  { customerId: "CUST-015", customerName: "Oka Antara", email: "oka@example.com", phone: "081234567815", loyalty: "Bronze" },
-  { customerId: "CUST-016", customerName: "Putri Rahma", email: "putri@example.com", phone: "081234567816", loyalty: "Silver" },
-  { customerId: "CUST-017", customerName: "Qori Amelia", email: "qori@example.com", phone: "081234567817", loyalty: "Gold" },
-  { customerId: "CUST-018", customerName: "Rizky Febian", email: "rizky@example.com", phone: "081234567818", loyalty: "Bronze" },
-  { customerId: "CUST-019", customerName: "Sari Indah", email: "sari@example.com", phone: "081234567819", loyalty: "Silver" },
-  { customerId: "CUST-020", customerName: "Taufik Hidayat", email: "taufik@example.com", phone: "081234567820", loyalty: "Gold" },
-  { customerId: "CUST-021", customerName: "Umar Bakri", email: "umar@example.com", phone: "081234567821", loyalty: "Bronze" },
-  { customerId: "CUST-022", customerName: "Vina Panduwinata", email: "vina@example.com", phone: "081234567822", loyalty: "Silver" },
-  { customerId: "CUST-023", customerName: "Wawan Hermawan", email: "wawan@example.com", phone: "081234567823", loyalty: "Gold" },
-  { customerId: "CUST-024", customerName: "Xena Larasati", email: "xena@example.com", phone: "081234567824", loyalty: "Bronze" },
-  { customerId: "CUST-025", customerName: "Yudi Ardiansyah", email: "yudi@example.com", phone: "081234567825", loyalty: "Silver" },
-  { customerId: "CUST-026", customerName: "Zahra Nurul", email: "zahra@example.com", phone: "081234567826", loyalty: "Gold" },
-  { customerId: "CUST-027", customerName: "Ahmad Dhani", email: "ahmad@example.com", phone: "081234567827", loyalty: "Bronze" },
-  { customerId: "CUST-028", customerName: "Bella Safira", email: "bella@example.com", phone: "081234567828", loyalty: "Silver" },
-  { customerId: "CUST-029", customerName: "Candra Wijaya", email: "candra@example.com", phone: "081234567829", loyalty: "Gold" },
-  { customerId: "CUST-030", customerName: "Dinda Hauw", email: "dinda@example.com", phone: "081234567830", loyalty: "Bronze" }
-];
+const Customers = () => {
+    // Fungsi untuk memberikan warna badge yang berbeda berdasarkan level loyalti
+    const getLoyaltyBadgeClass = (loyalty) => {
+        switch (loyalty) {
+            case 'Bronze':
+                return 'bg-orange-100 text-orange-700';
+            case 'Silver':
+                return 'bg-slate-200 text-slate-700';
+            case 'Gold':
+                return 'bg-yellow-100 text-yellow-700';
+            case 'Platinum':
+                return 'bg-indigo-100 text-indigo-700';
+            default:
+                return 'bg-gray-100 text-gray-600';
+        }
+    };
 
-export default function Customers() {
     return (
-        <div style={{ padding: '20px' }}>
-            <PageHeader 
-                title="Customers" 
-                breadcrumb={["Dashboard", "Customers"]} 
-                actionLabel="Add Customer" 
-                actionLink="/add-customer" 
-            />
-            
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                <table border="1" cellPadding="10" style={{ width: '100%', borderCollapse: 'collapse' }}>
-                    <thead style={{ backgroundColor: '#f2f2f2', textAlign: 'left' }}>
-                        <tr>
-                            <th>Customer ID</th>
-                            <th>Customer Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Loyalty</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {customersData.map((customer, index) => (
-                            <tr key={index} style={{ borderBottom: '1px solid #ddd' }}>
-                                <td>{customer.customerId}</td>
-                                <td>{customer.customerName}</td>
-                                <td>{customer.email}</td>
-                                <td>{customer.phone}</td>
-                                <td>{customer.loyalty}</td>
+        <div className="p-6 md:p-8 max-w-7xl mx-auto">
+            {/* Header Section */}
+            <div className="mb-6">
+                <h2 className="text-2xl font-bold text-gray-800">Halaman Customer</h2>
+                <p className="text-sm text-gray-500 mt-1">Daftar pelanggan yang terdaftar di sistem kami.</p>
+            </div>
+
+            {/* Table Card */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div className="overflow-x-auto">
+                    <table className="w-full text-left border-collapse">
+                        {/* Table Head */}
+                        <thead className="bg-gray-50 border-b border-gray-200">
+                            <tr>
+                                <th className="px-6 py-4 text-sm font-semibold text-gray-600">No</th>
+                                <th className="px-6 py-4 text-sm font-semibold text-gray-600">Nama Lengkap</th>
+                                <th className="px-6 py-4 text-sm font-semibold text-gray-600">Alamat</th>
+                                <th className="px-6 py-4 text-sm font-semibold text-gray-600">Email</th>
+                                <th className="px-6 py-4 text-sm font-semibold text-gray-600 text-center">Usia</th>
+                                <th className="px-6 py-4 text-sm font-semibold text-gray-600">Loyalti</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+
+                        {/* Table Body */}
+                        <tbody className="divide-y divide-gray-100">
+                            {customerData.map((item, index) => (
+                                <tr key={item.id} className="hover:bg-gray-50 transition-colors duration-200">
+                                    <td className="px-6 py-4 text-sm text-gray-500">{index + 1}</td>
+
+                                    <td className="px-6 py-4 text-sm font-medium">
+                                        <Link to={`/customers/${item.id}`} className="text-blue-500 hover:text-blue-600 hover:underline">
+                                            {item.nama}
+                                        </Link>
+                                    </td>
+
+                                    <td className="px-6 py-4 text-sm text-gray-600">
+                                        <div className="max-w-xs truncate" title={item.alamat}>
+                                            {item.alamat}
+                                        </div>
+                                    </td>
+
+                                    <td className="px-6 py-4 text-sm text-gray-600">{item.email}</td>
+
+                                    <td className="px-6 py-4 text-sm text-gray-600 text-center">{item.usia}</td>
+
+                                    {/* Loyalty Badge */}
+                                    <td className="px-6 py-4 text-sm">
+                                        <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${getLoyaltyBadgeClass(item.loyalti)}`}>
+                                            {item.loyalti}
+                                        </span>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     );
-}
+};
+
+export default Customers;

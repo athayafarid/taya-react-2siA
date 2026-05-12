@@ -42,9 +42,15 @@ export default function Sidebar() {
                         </NavLink>
                     </li>
                     <li>
-                       <NavLink to="*" className={menuClass}>
+                        <NavLink to="*" className={menuClass}>
                             <MdPeople className="mr-4 text-xl" />
                             <span>NotFound</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink id="menu-2" to="/Product" className={menuClass}>
+                            <MdOutlineAssignment className="mr-4 text-xl" />
+                            <span>Produk</span>
                         </NavLink>
                     </li>
                 </ul>

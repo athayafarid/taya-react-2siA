@@ -2,6 +2,7 @@ import "./assets/tailwind.css";
 import { Routes, Route } from "react-router-dom";
 import React from "react";
 
+
 // import Dashboard from "./pages/Dashboard";
 // import Customers from "./pages/Customers";
 // import Orders from "./pages/Orders";
@@ -16,19 +17,23 @@ import React from "react";
 // import Forgot from "./pages/auth/Forgot";
 import { Suspense } from "react";
 import Loading from "./components/Loading";
+const Dashboard = React.lazy(() => import("./pages/Dashboard"))
+const Orders = React.lazy(() => import("./pages/Orders"))
+const Customers = React.lazy(() => import("./pages/Customers"))
+const NotFound = React.lazy(() => import("./pages/NotFound"))
+const AddOrder = React.lazy(() => import("./pages/AddOrder"))
+const AddCustomer = React.lazy(() => import("./pages/AddCustomer"))
+const Login = React.lazy(() => import("./pages/auth/Login"))
+const Register = React.lazy(() => import("./pages/auth/Register"))
+const Forgot = React.lazy(() => import("./pages/auth/Forgot"))
+const MainLayout = React.lazy(() => import("./layouts/MainLayout"))
+const AuthLayout = React.lazy(() => import("./layouts/AuthLayout"))
+const Product = React.lazy(() => import("./pages/Product"))
+const ProductDetail = React.lazy(() => import("./pages/ProductDetail"))
+const CustomerDetail = React.lazy(() => import("./pages/CustomerDetail"))
 
 function App() {
-  const Dashboard = React.lazy(() => import("./pages/Dashboard"))
-  const Orders = React.lazy(() => import("./pages/Orders"))
-  const Customers = React.lazy(() => import("./pages/Customers"))
-  const NotFound = React.lazy(() => import("./pages/NotFound"))
-  const AddOrder = React.lazy(() => import("./pages/AddOrder"))
-  const AddCustomer = React.lazy(() => import("./pages/AddCustomer"))
-  const Login = React.lazy(() => import("./pages/auth/Login"))
-  const Register = React.lazy(() => import("./pages/auth/Register"))
-  const Forgot = React.lazy(() => import("./pages/auth/Forgot"))
-  const MainLayout = React.lazy(() => import("./layouts/MainLayout"))
-  const AuthLayout = React.lazy(() => import("./layouts/AuthLayout"))
+
   // const Loading = React.lazy(() => import("./components/Loading"))
   return (
     <Suspense fallback={<Loading />}>
@@ -40,6 +45,9 @@ function App() {
           {/* Tambahkan Route Form Disini */}
           <Route path="/add-order" element={<AddOrder />} />
           <Route path="/add-customer" element={<AddCustomer />} />
+          <Route path="/Product" element={<Product />} />
+           <Route path="/products/:id" element={<ProductDetail />} /> 
+           <Route path="/Customers/:id" element={<CustomerDetail />} />
 
           <Route path="*" element={<NotFound />} />
         </Route>
