@@ -4,7 +4,7 @@ export default function FiturXyz() {
     return (
         < div >
             < PageHeader />
-            <h1>Ini Halaman XYZ</h1>
+            <h1>Ini Halaman XYZ baru</h1>
         </div >
     );
 
