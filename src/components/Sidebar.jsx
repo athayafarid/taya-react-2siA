@@ -53,6 +53,12 @@ export default function Sidebar() {
                             <span>Produk</span>
                         </NavLink>
                     </li>
+                    <li>
+                        <NavLink id="menu-2" to="/FiturXyz" className={menuClass}>
+                            <MdOutlineAssignment className="mr-4 text-xl" />
+                            <span>FiturXyz</span>
+                        </NavLink>
+                    </li>
                 </ul>
             </div>
 

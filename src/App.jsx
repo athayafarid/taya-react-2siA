@@ -32,6 +32,8 @@ const Product = React.lazy(() => import("./pages/Product"))
 const ProductDetail = React.lazy(() => import("./pages/ProductDetail"))
 const CustomerDetail = React.lazy(() => import("./pages/CustomerDetail"))
 
+const FiturXyz = React.lazy(() => import("./pages/FiturXyz"));
+
 function App() {
 
   // const Loading = React.lazy(() => import("./components/Loading"))
@@ -46,9 +48,9 @@ function App() {
           <Route path="/add-order" element={<AddOrder />} />
           <Route path="/add-customer" element={<AddCustomer />} />
           <Route path="/Product" element={<Product />} />
-           <Route path="/products/:id" element={<ProductDetail />} /> 
-           <Route path="/Customers/:id" element={<CustomerDetail />} />
-
+          <Route path="/products/:id" element={<ProductDetail />} />
+          <Route path="/Customers/:id" element={<CustomerDetail />} />
+          <Route path="/FiturXyz" element={<FiturXyz />} />
           <Route path="*" element={<NotFound />} />
         </Route>
 
@@ -56,6 +58,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot" element={<Forgot />} />
+
         </Route>
       </Routes>
     </Suspense>
