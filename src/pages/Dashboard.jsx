@@ -1,49 +1,83 @@
-export default function PageHeader({
-    title = "Dashboard",
-    breadcrumb = ["Dashboard"],
-    actionLabel = "Add New",
-}) {
+import { useEffect, useState } from "react";
+import PageHeader from "@/components/PageHeader";
+import { profileService } from "@/services/profileService";
+import { productService } from "@/services/productService";
+import { orderService } from "@/services/orderService";
+
+export default function Dashboard() {
+    const [stats, setStats] = useState({
+        customers: 0,
+        products: 0,
+        orders: 0,
+        revenue: 0,
+    });
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
+
+    useEffect(() => {
+        async function loadStats() {
+            try {
+                setLoading(true);
+                setError("");
+
+                const [customers, products, orders] = await Promise.all([
+                    profileService.getAllProfiles(),
+                    productService.getProducts(),
+                    orderService.getOrders(),
+                ]);
+
+                const revenue = (orders || [])
+                    .filter((order) => order.status === "completed")
+                    .reduce((sum, order) => sum + Number(order.total_amount || 0), 0);
+
+                setStats({
+                    customers: customers?.length || 0,
+                    products: products?.length || 0,
+                    orders: orders?.length || 0,
+                    revenue,
+                });
+            } catch (err) {
+                setError(err.message || "Gagal memuat dashboard");
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        loadStats();
+    }, []);
+
     return (
-        <div
-            id="pageheader-container"
-            className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 mb-10 animate-in fade-in duration-700"
-        >
-            {/* LEFT */}
-            <div id="pageheader-left" className="flex flex-col gap-2">
-                <h1 className="font-poppins text-3xl sm:text-4xl font-black text-gray-900 leading-tight">
-                    {title}
-                </h1>
+        <div>
+            <PageHeader
+                title="Dashboard"
+                breadcrumb={["Dashboard"]}
+                actionLabel="Add New"
+            />
 
-                {/* Breadcrumb */}
-                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider">
-                    {breadcrumb.map((item, index) => (
-                        <div key={index} className="flex items-center gap-2">
-                            <span
-                                className={`cursor-pointer ${
-                                    index === breadcrumb.length - 1
-                                        ? "text-gray-400 cursor-default"
-                                        : "text-green-600 hover:underline"
-                                }`}
-                            >
-                                {item}
-                            </span>
+            {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
-                            {index !== breadcrumb.length - 1 && (
-                                <span className="text-gray-300">/</span>
-                            )}
-                        </div>
-                    ))}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <p className="text-sm text-gray-400 font-semibold">Total Customer</p>
+                    <p className="text-3xl font-black text-gray-900 mt-3">{loading ? "..." : stats.customers}</p>
                 </div>
-            </div>
 
-            {/* RIGHT */}
-            <div id="action-button">
-                <button className="group flex items-center gap-3 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-2xl font-bold text-sm shadow-lg shadow-green-100 transition-all active:scale-95">
-                    <span className="text-lg transition-transform group-hover:rotate-90">
-                        +
-                    </span>
-                    {actionLabel}
-                </button>
+                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <p className="text-sm text-gray-400 font-semibold">Total Produk</p>
+                    <p className="text-3xl font-black text-gray-900 mt-3">{loading ? "..." : stats.products}</p>
+                </div>
+
+                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <p className="text-sm text-gray-400 font-semibold">Total Pesanan</p>
+                    <p className="text-3xl font-black text-gray-900 mt-3">{loading ? "..." : stats.orders}</p>
+                </div>
+
+                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <p className="text-sm text-gray-400 font-semibold">Total Revenue</p>
+                    <p className="text-3xl font-black text-gray-900 mt-3">
+                        {loading ? "..." : `Rp ${stats.revenue.toLocaleString("id-ID")}`}
+                    </p>
+                </div>
             </div>
         </div>
     );

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-// Sesuaikan path import dengan lokasi file JSON Anda
-import customerData from '../data/customers.json';
+import { profileService } from "@/services/profileService";
 
 export default function CustomerDetail() {
     const { id } = useParams();
@@ -9,24 +8,28 @@ export default function CustomerDetail() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const foundCustomer = customerData.find(c => c.id === parseInt(id));
-        if (foundCustomer) {
-            setCustomer(foundCustomer);
-        } else {
-            setError("Data customer tidak ditemukan.");
+        async function loadCustomer() {
+            try {
+                const data = await profileService.getProfileById(id);
+                setCustomer(data);
+            } catch {
+                setError("Data customer tidak ditemukan.");
+            }
         }
+
+        loadCustomer();
     }, [id]);
 
     // Fungsi untuk memberikan gaya gradasi mewah pada badge loyalti
     const getLoyaltyStyle = (loyalty) => {
         switch (loyalty) {
-            case 'Gold':
+            case 'gold':
                 return 'bg-gradient-to-r from-yellow-200 via-yellow-500 to-yellow-600 text-yellow-950 border-yellow-400 shadow-[0_0_15px_rgba(234,179,8,0.3)]';
-            case 'Platinum':
+            case 'platinum':
                 return 'bg-gradient-to-r from-slate-300 via-slate-400 to-slate-500 text-slate-900 border-slate-300 shadow-[0_0_15px_rgba(148,163,184,0.3)]';
-            case 'Silver':
+            case 'silver':
                 return 'bg-gradient-to-r from-gray-100 via-gray-300 to-gray-400 text-gray-800 border-gray-300';
-            case 'Bronze':
+            case 'bronze':
                 return 'bg-gradient-to-r from-orange-200 via-orange-400 to-orange-600 text-orange-950 border-orange-400';
             default:
                 return 'bg-gray-100 text-gray-600 border-gray-300';
@@ -58,8 +61,8 @@ export default function CustomerDetail() {
                         <div className="relative">
                             <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-yellow-600 to-yellow-300 blur-sm opacity-50"></div>
                             <img
-                                src={`https://ui-avatars.com/api/?name=${encodeURIComponent(customer.nama)}&size=200&background=27272a&color=eab308&bold=true`}
-                                alt={customer.nama}
+                                src={`https://ui-avatars.com/api/?name=${encodeURIComponent(customer.full_name || customer.email)}&size=200&background=27272a&color=eab308&bold=true`}
+                                alt={customer.full_name || customer.email}
                                 className="relative rounded-full w-28 h-28 object-cover ring-4 ring-[#c5a059] shadow-xl"
                             />
                         </div>
@@ -67,10 +70,10 @@ export default function CustomerDetail() {
                         {/* Nama & Badge */}
                         <div className="text-center sm:text-left">
                             <h2 className="text-3xl sm:text-4xl font-serif text-zinc-800 font-bold mb-3 tracking-tight">
-                                {customer.nama}
+                                {customer.full_name || customer.email}
                             </h2>
-                            <div className={`inline-block px-4 py-1.5 rounded-full text-sm font-bold tracking-widest uppercase border ${getLoyaltyStyle(customer.loyalti)}`}>
-                                {customer.loyalti} MEMBER
+                            <div className={`inline-block px-4 py-1.5 rounded-full text-sm font-bold tracking-widest uppercase border ${getLoyaltyStyle(customer.tier)}`}>
+                                {customer.tier} MEMBER
                             </div>
                         </div>
                     </div>
@@ -108,9 +111,9 @@ export default function CustomerDetail() {
                                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
-                                    <span className="text-sm font-medium tracking-wide">Usia</span>
+                                    <span className="text-sm font-medium tracking-wide">Poin</span>
                                 </div>
-                                <p className="text-gray-300 font-light text-lg pl-8">{customer.usia} Tahun</p>
+                                <p className="text-gray-300 font-light text-lg pl-8">{customer.points} Poin</p>
                             </div>
 
                             {/* Kotak Alamat */}
@@ -120,9 +123,9 @@ export default function CustomerDetail() {
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                     </svg>
-                                    <span className="text-sm font-medium tracking-wide">Alamat Lengkap</span>
+                                    <span className="text-sm font-medium tracking-wide">Role</span>
                                 </div>
-                                <p className="text-gray-300 font-light text-lg pl-8 leading-relaxed">{customer.alamat}</p>
+                                <p className="text-gray-300 font-light text-lg pl-8 leading-relaxed capitalize">{customer.role}</p>
                             </div>
 
                         </div>

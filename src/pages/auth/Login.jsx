@@ -2,7 +2,8 @@ import { MdOutlineDownloading } from "react-icons/md";
 import { BiMessageAltError } from "react-icons/bi";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { authService } from "@/services/authService";
+import { profileService } from "@/services/profileService";
 
 
 export default function Login() {
@@ -32,28 +33,13 @@ export default function Login() {
         setError("");
 
         try {
-            const response = await axios.post(
-                "https://dummyjson.com/user/login",
-                {
-                    username: dataForm.email,
-                    password: dataForm.password,
-                }
-            );
-
-            // Jika status bukan 200, tampilkan pesan error
-            if (response.status !== 200) {
-                setError("Login gagal");
-                return;
-            }
+            const response = await authService.login(dataForm);
+            const profile = await profileService.getCurrentProfile(response.user.id);
 
             // Redirect ke dashboard jika login sukses
-            navigate("/");
+            navigate(profile.role === "member" ? "/member-dashboard" : "/");
         } catch (err) {
-            if (err.response) {
-                setError(err.response.data.message || "Login gagal");
-            } else {
-                setError("Terjadi kesalahan");
-            }
+            setError(err.message || "Login gagal");
         } finally {
             setLoading(false);
         }
@@ -99,7 +85,7 @@ export default function Login() {
                         value={dataForm.email}
                         onChange={handleChange}
                         className="w-full px-4 py-2 border rounded-lg"
-                        placeholder="kminchelle"
+                        placeholder="you@example.com"
                     />
                 </div>
 
@@ -113,7 +99,7 @@ export default function Login() {
                         value={dataForm.password}
                         onChange={handleChange}
                         className="w-full px-4 py-2 border rounded-lg"
-                        placeholder="0lelplR"
+                        placeholder="********"
                     />
                 </div>
 

@@ -17,6 +17,7 @@ import React from "react";
 // import Forgot from "./pages/auth/Forgot";
 import { Suspense } from "react";
 import Loading from "./components/Loading";
+import ProtectedRoute from "./routes/ProtectedRoute";
 const Dashboard = React.lazy(() => import("./pages/Dashboard"))
 const Orders = React.lazy(() => import("./pages/Orders"))
 const Customers = React.lazy(() => import("./pages/Customers"))
@@ -31,6 +32,7 @@ const AuthLayout = React.lazy(() => import("./layouts/AuthLayout"))
 const Product = React.lazy(() => import("./pages/Product"))
 const ProductDetail = React.lazy(() => import("./pages/ProductDetail"))
 const CustomerDetail = React.lazy(() => import("./pages/CustomerDetail"))
+const MemberDashboard = React.lazy(() => import("./pages/MemberDashboard"))
 
 const FiturXyz = React.lazy(() => import("./pages/FiturXyz"));
 const Notes = React.lazy(() => import("./pages/Notes"));
@@ -41,7 +43,11 @@ function App() {
   return (
     <Suspense fallback={<Loading />}>
       <Routes>
-        <Route element={<MainLayout />}>
+        <Route element={
+          <ProtectedRoute allowedRoles={["admin"]}>
+            <MainLayout />
+          </ProtectedRoute>
+        }>
           <Route path="/" element={<Dashboard />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/customers" element={<Customers />} />
@@ -54,6 +60,14 @@ function App() {
           <Route path="/FiturXyz" element={<FiturXyz />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/notes" element={<Notes />} />
+        </Route>
+
+        <Route element={
+          <ProtectedRoute allowedRoles={["member"]}>
+            <MainLayout />
+          </ProtectedRoute>
+        }>
+          <Route path="/member-dashboard" element={<MemberDashboard />} />
         </Route>
 
         <Route element={<AuthLayout />}>
